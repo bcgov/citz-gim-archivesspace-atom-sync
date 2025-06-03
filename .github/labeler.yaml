@@ -1,0 +1,13 @@
+# Auto Label Git Action Config
+# 'label_name'
+#   - path_of_diff/where/code_lives/to_base_label_upon
+
+'Actions':
+  - .github/workflows/*
+
+'API':
+  - backend/**/*
+
+'APP':
+  - desktop/**/*
+
