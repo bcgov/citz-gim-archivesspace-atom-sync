@@ -1,0 +1,6 @@
+{
+	"name": "sync",
+	"scripts": {
+		"up": "podman compose up -d"
+	}
+}
