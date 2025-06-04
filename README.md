@@ -1,2 +1,2 @@
-# citz-grs-archivesspace-atom-sync
-AtoM Sync for GRS's ArchivesSpace Component
+# citz-gim-archivesspace-atom-sync
+AtoM Sync for GIM's ArchivesSpace Component
