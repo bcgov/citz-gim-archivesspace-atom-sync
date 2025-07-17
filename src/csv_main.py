@@ -1,6 +1,4 @@
 import logging, time, os, requests, csv
-import ssl
-from urllib.error import URLError
 
 from cache        import load_existing_resources, load_existing_subjects, load_existing_agents
 from csv_mapping  import build_resource_json
@@ -32,10 +30,10 @@ def process_all_records(cache: dict, processed_ids: set, state: dict) -> int:
             # Extract access points and save them to state
             id_0 = rsrc["id_0"]
             state.setdefault("access_points", {})[id_0] = {
-                "subject": detail.get("subjectAccessPoints", "").split("|") if detail.get("subjectAccessPoints") else [],
-                "place": detail.get("placeAccessPoints", "").split("|") if detail.get("placeAccessPoints") else [],
-                "name": detail.get("nameAccessPoints", "").split("|") if detail.get("nameAccessPoints") else [],
-                "creator": detail.get("eventActors", "").split("|") if detail.get("eventActors") else [],
+                "subject": [item for item in detail.get("subjectAccessPoints", "").split("|") if item and item.upper() != "NULL"] if detail.get("subjectAccessPoints") else [],
+                "place": [item for item in detail.get("placeAccessPoints", "").split("|") if item and item.upper() != "NULL"] if detail.get("placeAccessPoints") else [],
+                "name": [item for item in detail.get("nameAccessPoints", "").split("|") if item and item.upper() != "NULL"] if detail.get("nameAccessPoints") else [],
+                "creator": [item for item in detail.get("eventActors", "").split("|") if item and item.upper() != "NULL"] if detail.get("eventActors") else [],
             }
 
             # Ensure state keys are initialized as sets
