@@ -1,4 +1,3 @@
-import re
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
@@ -64,6 +63,17 @@ def build_resource_json(d: Dict[str, Any], id: str) -> Dict[str, Any]:
         {"number": "0", "extent_type": "volumes", "portion": "whole"}
     ]
 
+    # Date filtering
+    event_dates = d.get("eventDates")
+    event_start_dates = d.get("eventStartDates")
+    
+    # Filter out NULL values from pipe-separated date fields
+    filtered_event_dates = [item for item in (event_dates or "").split("|") if item and item.upper() != "NULL"]
+    filtered_event_start_dates = [item for item in (event_start_dates or "").split("|") if item and item.upper() != "NULL"]
+    
+    # Get the first valid date from either field
+    filtered_date = next((date for dates in [filtered_event_dates, filtered_event_start_dates] for date in dates if date), "n.d.")
+
     return {
         "title": d.get("title", "Untitled"),
         "id_0": d.get("referenceCode", "Unknown"),
@@ -74,7 +84,7 @@ def build_resource_json(d: Dict[str, Any], id: str) -> Dict[str, Any]:
             {
                 "label": "creation",
                 "date_type": "inclusive",
-                "expression": d.get("eventDates") or d.get("eventStartDates") or "n.d.",
+                "expression": filtered_date,
             }
         ],
         "extents": extents,

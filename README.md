@@ -32,12 +32,27 @@ The application is built using Python and Docker, with the following key compone
    cd citz-gim-archivesspace-atom-sync
    ```
 
-2. Build and start the Docker container:
+2. Ensure the `.env` file is configured with the necessary API credentials and environment variables. You can reference the `.env.template` file to build the `.env`.
+
+3. Build and start the Docker container:
    ```bash
    npm run up
    ```
 
-3. Ensure the `.env` file is configured with the necessary API credentials and environment variables. You can reference the `.env.template` file to build the `.env`.
+---
+
+### CSV Upload
+
+Instead of running the application to pull data from the AtoM API, you can use a CSV file.
+
+#### Steps
+
+1. Change `main.py` on line 10 of `supervisord.conf` to `csv_main.py` and save.
+
+2. Remove all containers and images from podman.
+
+3. Run `npm run up`. After a few minutes you will see logs in the `sync` container.
+
 
 ---
 
